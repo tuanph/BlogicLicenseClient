@@ -13,6 +13,8 @@ export class DataService {
   private _headers: Headers;
   constructor(private _http: Http, private _router: Router, private _authenService: AuthenService,
     private _notificationService: NotificationService, private _utilityService: UtilityService) {
+      this._headers = new Headers();
+      this._headers.append("Content-Type","application/json");
   }
 
   get(url: string) {
