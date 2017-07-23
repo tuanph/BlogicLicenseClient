@@ -12,7 +12,8 @@ export class RoleComponent implements OnInit {
 
   public roles: any[];
   public pageIndex: number = 1;
-  public pageSize: number = 20;
+  public pageSize: number = 1;
+  public totalItems: number;
   public filter: string = "";
 
   constructor(private _dataService: DataService, private _notificationService: NotificationService) {
@@ -20,15 +21,21 @@ export class RoleComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getRolse();
+    this.getRoles();
   }
-  public getRolse() {
+  public getRoles() {
     let url = "/api/appRole/getlistpaging?page=" + this.pageIndex + "&pageSize=" + this.pageSize + "&filter=" + this.filter;
     this._dataService.get(url)
       .subscribe((response: any) => {
-        console.log(response);
+        // console.log(response);
         this.roles = response.Items;
+        this.totalItems = response.TotalRows;
       });
+  }
+
+  public pageChanged(event: any) {
+    this.pageIndex = event.page;
+    this.getRoles();
   }
 
 }
