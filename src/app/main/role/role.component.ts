@@ -68,7 +68,7 @@ export class RoleComponent implements OnInit {
             this.getRoles();
             this.addOrEditModal.hide();
             this._notificationService.printSuccessMessage(MessageConstants.CREATED_OK_MSG);
-           
+
           }, (error) => {
             this._dataService.handleError(error);
           });
@@ -82,8 +82,20 @@ export class RoleComponent implements OnInit {
             this._dataService.handleError(error);
           });
       }
-         this.addOrEditForm.resetForm();
+      this.addOrEditForm.resetForm();
     }
   }
 
+  public onButtonDeleteRoleClicked(id: any) {
+    this._notificationService.printConfirmationDialog(MessageConstants.CONFIRM_DELETE_MSG, () => {
+      this.deleteConfirm(id);
+    })
+  }
+
+  public deleteConfirm(id: any) {
+    this._dataService.delete("/api/appRole/delete", "id", id).subscribe(() => {
+      this._notificationService.printSuccessMessage(MessageConstants.DELETED_OK_MSG);
+      this.getRoles();
+    });
+  }
 }
