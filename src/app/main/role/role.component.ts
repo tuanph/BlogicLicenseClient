@@ -47,19 +47,42 @@ export class RoleComponent implements OnInit {
     this.entity = {};
     this.addOrEditModal.show();
   }
+  public showEditModal(id: any) {
+    this.getRoleById(id);
+    this.addOrEditModal.show();
+  }
+
+  public getRoleById(id: any) {
+    let url = "/api/appRole/detail/" + id;
+    this._dataService.get(url)
+      .subscribe((response: any) => {
+        console.log(response);
+        this.entity = response;
+      });
+  }
   public saveChanges(valid: boolean) {
     if (valid) {
-      if (this.entity.id == undefined) {
+      if (this.entity.Id == undefined) {
         this._dataService.post("/api/appRole/add", JSON.stringify(this.entity))
           .subscribe((response: any) => {
             this.getRoles();
             this.addOrEditModal.hide();
             this._notificationService.printSuccessMessage(MessageConstants.CREATED_OK_MSG);
-            this.addOrEditForm.resetForm();
+           
+          }, (error) => {
+            this._dataService.handleError(error);
+          });
+      } else {
+        this._dataService.put("/api/appRole/update", JSON.stringify(this.entity))
+          .subscribe((response: any) => {
+            this.getRoles();
+            this.addOrEditModal.hide();
+            this._notificationService.printSuccessMessage(MessageConstants.UPDATED_OK_MSG);
           }, (error) => {
             this._dataService.handleError(error);
           });
       }
+         this.addOrEditForm.resetForm();
     }
   }
 
