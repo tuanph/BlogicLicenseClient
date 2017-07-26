@@ -5,6 +5,8 @@ import { UtilityService } from '../../core/services/utility.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { MessageConstants } from '../../core/common/message.constants';
 import { NgForm } from '@angular/forms';
+import { IMultiSelectOption } from 'angular-2-dropdown-multiselect';
+
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -18,12 +20,34 @@ export class UserComponent implements OnInit {
   public totalItems: number;
   public filter: string = "";
   public entity: any;
-  constructor(private _dataService: DataService) {
+  @ViewChild('modalAddEditUser') public modalAddEditUser: ModalDirective;
+  @ViewChild('addEditUserForm') public addEditUserForm: NgForm;
+  public myRoles: string[] = [];
+  public allRoles: IMultiSelectOption[] = [];
+  public roles: any[];
+
+  public dateOptions: any = {
+    locale: { format: 'DD/MM/YYYY' },
+    alwaysShowCalendars: false,
+    singleDatePicker: true
+  };
+
+  constructor(private _dataService: DataService, private _notificationService: NotificationService) {
 
   }
 
   ngOnInit() {
+    this.getRoles();
     this.getUsers();
+  }
+  getRoles(): any {
+    this._dataService.get('/api/appRole/getlistall').subscribe((response: any[]) => {
+      this.roles = response;
+      this.allRoles = [];
+      for (let role of response) {
+        this.allRoles.push({ id: role.Name, name: role.Description });
+      }
+    }, error => this._dataService.handleError(error));
   }
 
   getUsers() {
@@ -39,13 +63,40 @@ export class UserComponent implements OnInit {
     this.pageIndex = event.page;
     this.getUsers();
   }
-  showAddModal() {
 
+  showAddModal() {
+    this.entity = {};
+    this.modalAddEditUser.show();
   }
+
   showEditModal(id: any) {
   }
-  deleteUser(id: any) {
 
+  public saveChange(valid: boolean) {
+    if (valid) {
+      if (this.entity.Id == undefined) {
+        this._dataService.post('/api/appUser/add', JSON.stringify(this.entity))
+          .subscribe((response: any) => {
+            this.getUsers();
+            this.modalAddEditUser.hide();
+            this._notificationService.printSuccessMessage(MessageConstants.CREATED_OK_MSG);
+          }, error => this._dataService.handleError(error));
+      }
+    }
+  }
+
+
+  deleteUser(id: any) {
+    this._notificationService.printConfirmationDialog(MessageConstants.CONFIRM_DELETE_MSG, () => this.deleteUserConfirm(id));
+  }
+  deleteUserConfirm(id: any) {
+    this._dataService.delete('/api/appUser/delete', 'id', id).subscribe((response: Response) => {
+      this._notificationService.printSuccessMessage(MessageConstants.DELETED_OK_MSG);
+      this.getUsers();
+    });
+  }
+  public selectGender(event) {
+    this.entity.Gender = event.target.value
   }
 
 }

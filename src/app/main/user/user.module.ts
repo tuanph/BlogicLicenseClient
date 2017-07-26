@@ -8,6 +8,8 @@ import { FormsModule } from '@angular/forms';
 import { DataService } from '../../core/services/data.service';
 import { NotificationService } from '../../core/services/notification.service';
 import { UtilityService } from '../../core/services/utility.service'
+import { Daterangepicker } from 'ng2-daterangepicker';
+import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
 
 let userRouter: Routes = [
   { path: '', component: UserComponent }
@@ -19,7 +21,9 @@ let userRouter: Routes = [
     RouterModule.forChild(userRouter),
     FormsModule,
     PaginationModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    Daterangepicker,
+    MultiselectDropdownModule
   ],
   providers: [DataService, NotificationService, UtilityService],
   declarations: [UserComponent]

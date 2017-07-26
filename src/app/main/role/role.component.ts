@@ -21,6 +21,8 @@ export class RoleComponent implements OnInit {
 
   @ViewChild('addOrEditModal') public addOrEditModal: ModalDirective;
   @ViewChild("addOrEditForm") public addOrEditForm: NgForm;
+
+  
   constructor(private _dataService: DataService, private _notificationService: NotificationService) {
 
   }
