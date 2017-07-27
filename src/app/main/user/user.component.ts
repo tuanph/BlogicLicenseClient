@@ -6,6 +6,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { MessageConstants } from '../../core/common/message.constants';
 import { NgForm } from '@angular/forms';
 import { IMultiSelectOption } from 'angular-2-dropdown-multiselect';
+declare var moment: any;
 
 @Component({
   selector: 'app-user',
@@ -55,6 +56,7 @@ export class UserComponent implements OnInit {
     this._dataService.get(url)
       .subscribe((response: any) => {
         this.users = response.Items;
+        console.log(this.users);
         this.totalItems = response.TotalRows;
       });
   }
@@ -69,7 +71,19 @@ export class UserComponent implements OnInit {
     this.modalAddEditUser.show();
   }
 
+  loadUserDetail(id: any) {
+    this._dataService.get('/api/appUser/detail/' + id)
+      .subscribe((response: any) => {
+        this.entity = response;
+        for (let role of this.entity.Roles) {
+          this.myRoles.push(role);
+        }
+        this.entity.BirthDay = moment(new Date(this.entity.BirthDay)).format('DD/MM/YYYY');
+      });
+  }
   showEditModal(id: any) {
+    this.loadUserDetail(id);
+    this.modalAddEditUser.show();
   }
 
   public saveChange(valid: boolean) {
@@ -80,6 +94,14 @@ export class UserComponent implements OnInit {
             this.getUsers();
             this.modalAddEditUser.hide();
             this._notificationService.printSuccessMessage(MessageConstants.CREATED_OK_MSG);
+          }, error => this._dataService.handleError(error));
+      }
+      else {
+        this._dataService.put('/api/appUser/update', JSON.stringify(this.entity))
+          .subscribe((response: any) => {
+            this.getUsers();
+            this.modalAddEditUser.hide();
+            this._notificationService.printSuccessMessage(MessageConstants.UPDATED_OK_MSG);
           }, error => this._dataService.handleError(error));
       }
     }
