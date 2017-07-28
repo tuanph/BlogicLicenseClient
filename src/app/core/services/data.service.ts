@@ -37,9 +37,14 @@ export class DataService {
     this._headers.append("Authorization", "Bearer " + this._authenService.getLoginUser().access_token);
     return this._http.delete(SystemConstants.BASE_API + url + "/?" + key + "=" + id, { headers: this._headers }).map(this.extractData);
   }
-  postFile(url: string, data?: any) {
 
+  postFile(url: string, data?: any) {
+    let newHeader = new Headers();
+    newHeader.append("Authorization", "Bearer " + this._authenService.getLoginUser().access_token);
+    return this._http.post(SystemConstants.BASE_API + url, data, { headers: newHeader })
+      .map(this.extractData);
   }
+    
   private extractData(response: Response) {
     let body = response.json();
     return body || {};
