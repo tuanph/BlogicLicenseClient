@@ -11,7 +11,7 @@
         <!-- menu profile quick info -->
         <div class="profile">
           <div class="profile_pic">
-            <img src="{{user.avatar}}" alt="..." class="img-circle profile_img">
+            <img src="{{baseFolder+user.avatar}}" alt="..." class="img-circle profile_img">
           </div>
           <div class="profile_info">
             <span>Chào mừng,</span>
@@ -32,11 +32,11 @@
               <li><a><i class="fa fa-desktop"></i> Hệ thống <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                   <li><a routerLink="/main/role" routerLinkActive="active">Nhóm</a></li>
-                  <li><a routerLink="/main/function/index" routerLinkActive="active">Chức năng</a></li>
+                  <li><a routerLink="/main/function" routerLinkActive="active">Chức năng</a></li>
                   <li><a routerLink="/main/user" routerLinkActive="active">Người dùng</a></li>
-                  <li><a routerLink="/main/activity/index" routerLinkActive="active">Nhật ký</a></li>
-                  <li><a routerLink="/main/error/index" routerLinkActive="active">Lỗi</a></li>
-                  <li><a routerLink="/main/setting/index" routerLinkActive="active">Cấu hình</a></li>
+                  <li><a routerLink="/main/activity" routerLinkActive="active">Nhật ký</a></li>
+                  <li><a routerLink="/main/error" routerLinkActive="active">Lỗi</a></li>
+                  <li><a routerLink="/main/setting" routerLinkActive="active">Cấu hình</a></li>
                 </ul>
               </li>
               <li><a><i class="fa fa-chevron-down"></i> Sản phẩm <span class="fa fa-chevron-down"></span></a>
@@ -146,7 +146,7 @@
           <ul class="nav navbar-nav navbar-right">
             <li class="">
               <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                <img src="{{user.avatar}}" alt="">{{user.fullName}}
+                <img src="{{baseFolder+user.avatar}}" alt="">{{user.fullName}}
                 <span class=" fa fa-angle-down"></span>
               </a>
               <ul class="dropdown-menu dropdown-usermenu pull-right">
