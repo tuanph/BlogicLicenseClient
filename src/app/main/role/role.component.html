@@ -20,11 +20,11 @@
     <div class="x_panel">
       <div class="x_title">
         <ul class="nav navbar-right panel_toolbox">
-            <li>
-              <button class="btn btn-success" (click)="showAddModal()">Add new Role</button>
-            </li>
+          <li>
+            <button class="btn btn-success" (click)="showAddModal()">Add new Role</button>
+          </li>
         </ul>
-        <div class="clearfix"></div> 
+        <div class="clearfix"></div>
       </div>
 
       <div class="x_content">
@@ -41,8 +41,8 @@
               <td>{{role.Name}}</td>
               <td>{{role.Description}}</td>
               <td>
-                <button class="btn btn-primary" (click)="showEditModal(role.Id)"><i class="fa fa-pencil-square-o"></i> </button>
-                <button class="btn btn-danger" (click)="onButtonDeleteRoleClicked(role.Id)"><i class="fa fa-trash"></i> </button>
+                <button *ngIf="role.Name!='Admin'" class="btn btn-primary" (click)="showEditModal(role.Id)"><i class="fa fa-pencil-square-o"></i> </button>
+                <button *ngIf="role.Name!='Admin'" class="btn btn-danger" (click)="onButtonDeleteRoleClicked(role.Id)"><i class="fa fa-trash"></i> </button>
               </td>
             </tr>
           </tbody>
