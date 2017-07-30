@@ -7,7 +7,8 @@ export const mainRoutes: Routes = [
             { path: 'home', loadChildren: './home/home.module#HomeModule' },
             { path: 'role', loadChildren: './role/role.module#RoleModule' },
             { path: 'user', loadChildren: './user/user.module#UserModule' },
-            { path: 'function', loadChildren: './function/function.module#FunctionModule' }
+            { path: 'function', loadChildren: './function/function.module#FunctionModule' },
+            { path: 'product-category', loadChildren: './product-category/product-category.module#ProductCategoryModule' }
         ]
     }
 
