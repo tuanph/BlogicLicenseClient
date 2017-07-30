@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataService } from '../../core/services/data.service';
 import { NotificationService } from '../../core/services/notification.service';
+import { AuthenService } from '../../core/services/authen.service';
 import { UtilityService } from '../../core/services/utility.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { MessageConstants } from '../../core/common/message.constants';
@@ -39,8 +40,10 @@ export class UserComponent implements OnInit {
   };
 
   constructor(private _dataService: DataService, private _notificationService: NotificationService,
-    private _uploadService: UploadService) {
-
+    private _uploadService: UploadService, private _authenService: AuthenService, public _utilityService: UtilityService) {
+    if (_authenService.checkAccess('USER') == false) {
+      _utilityService.navigateToLogin();
+    }
   }
 
   ngOnInit() {
@@ -138,6 +141,9 @@ export class UserComponent implements OnInit {
   }
   public selectGender(event) {
     this.entity.Gender = event.target.value
+  }
+  public selectedDate(value: any) {
+    this.entity.BirthDay = moment(value.end._d).format('DD/MM/YYYY');
   }
 
 }
