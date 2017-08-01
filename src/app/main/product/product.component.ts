@@ -32,6 +32,13 @@ export class ProductComponent implements OnInit {
   public filterCategoryID: number;
   public products: any[];
   public productCategories: any[];
+  public checkedItems: any[];
+
+  /*Product manage */
+  public imageEntity: any = {};
+  public productImages: any = [];
+  @ViewChild('imageManageModal') public imageManageModal: ModalDirective;
+  @ViewChild("imagePath") imagePath;
 
   constructor(public _authenService: AuthenService,
     private _dataService: DataService,
@@ -126,5 +133,56 @@ export class ProductComponent implements OnInit {
 
   public keyupHandlerContentFunction(e: any) {
     this.entity.Content = e;
+  }
+
+  public deleteMulti() {
+    this.checkedItems = this.products.filter(x => x.Checked);
+    var checkedIds = [];
+    for (var i = 0; i < this.checkedItems.length; ++i)
+      checkedIds.push(this.checkedItems[i]["ID"]);
+
+    this.notificationService.printConfirmationDialog(MessageConstants.CONFIRM_DELETE_MSG, () => {
+      this._dataService.delete('/api/product/deletemulti', 'checkedProducts', JSON.stringify(checkedIds)).subscribe((response: any) => {
+        this.notificationService.printSuccessMessage(MessageConstants.DELETED_OK_MSG);
+        this.search();
+      }, error => this._dataService.handleError(error));
+    });
+  }
+  /*Image management*/
+  public showImageManage(id: number) {
+    this.imageEntity = {
+      ProductId: id
+    };
+    this.loadProductImages(id);
+    this.imageManageModal.show();
+  }
+
+  public loadProductImages(id: number) {
+    this._dataService.get('/api/productImage/getall?productId=' + id).subscribe((response: any[]) => {
+      this.productImages = response;
+    }, error => this._dataService.handleError(error));
+  }
+  public deleteImage(id: number) {
+    this.notificationService.printConfirmationDialog(MessageConstants.CONFIRM_DELETE_MSG, () => {
+      this._dataService.delete('/api/productImage/delete', 'id', id.toString()).subscribe((response: any) => {
+        this.notificationService.printSuccessMessage(MessageConstants.DELETED_OK_MSG);
+        this.loadProductImages(this.imageEntity.ProductId);
+      }, error => this._dataService.handleError(error));
+    });
+  }
+
+  public saveProductImage(isValid: boolean) {
+    if (isValid) {
+      let fi = this.imagePath.nativeElement;
+      if (fi.files.length > 0) {
+        this.uploadService.postWithFile('/api/upload/saveImage?type=product', null, fi.files).then((imageUrl: string) => {
+          this.imageEntity.Path = imageUrl;
+          this._dataService.post('/api/productImage/add', JSON.stringify(this.imageEntity)).subscribe((response: any) => {
+            this.loadProductImages(this.imageEntity.ProductId);
+            this.notificationService.printSuccessMessage(MessageConstants.CREATED_OK_MSG);
+          });
+        });
+      }
+    }
   }
 }
