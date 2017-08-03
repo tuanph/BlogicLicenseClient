@@ -53,7 +53,8 @@
         "../node_modules/tinymce/plugins/preview/plugin.js",
         "../node_modules/tinymce/plugins/wordcount/plugin.js",
         "../node_modules/tinymce/plugins/textcolor/plugin.js",
-        "../node_modules/signalr/jquery.signalr.js"
+        "../node_modules/signalr/jquery.signalr.js",
+        "../node_modules/chart.js/src/chart.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
