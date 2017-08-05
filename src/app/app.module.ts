@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router'
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
 import { AuthGuard } from './core/guards/auth.guards';
+// import { CommonModule, APP_BASE_HREF, LocationStrategy, HashLocationStrategy} from '@angular/common';
 
 
 @NgModule({
@@ -12,7 +13,7 @@ import { AuthGuard } from './core/guards/auth.guards';
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes, { useHash: true })
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

@@ -40,7 +40,7 @@ export class UserComponent implements OnInit {
   };
 
   constructor(private _dataService: DataService, private _notificationService: NotificationService,
-    private _uploadService: UploadService, private _authenService: AuthenService, public _utilityService: UtilityService) {
+    private _uploadService: UploadService, public _authenService: AuthenService, public _utilityService: UtilityService) {
     if (_authenService.checkAccess('USER') == false) {
       _utilityService.navigateToLogin();
     }

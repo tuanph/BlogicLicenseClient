@@ -10,8 +10,8 @@ import { MessageConstants } from '../core/common/message.constants';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  private loading: boolean = false;
-  private model: any = {};
+  public loading: boolean = false;
+  public model: any = {};
 
   constructor(private _authenService: AuthenService,
     private _notificationService: NotificationService,

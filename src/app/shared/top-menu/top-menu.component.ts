@@ -66,4 +66,9 @@ export class TopMenuComponent implements OnInit {
       }
     });
   }
+
+    logout() {
+    this._authenService.logout();
+  }
+
 }

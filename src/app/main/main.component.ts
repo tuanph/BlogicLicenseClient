@@ -14,9 +14,7 @@ export class MainComponent implements OnInit {
   ngOnInit() {
     this.user = this._authenService.getLoginUser();
   }
-
-  logout() {
+  logout(){
     this._authenService.logout();
   }
-
 }
