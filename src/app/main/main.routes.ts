@@ -9,9 +9,11 @@ export const mainRoutes: Routes = [
             { path: 'user', loadChildren: './user/user.module#UserModule' },
             { path: 'function', loadChildren: './function/function.module#FunctionModule' },
             { path: 'product', loadChildren: './product/product.module#ProductModule' },
+            { path: 'product-category', loadChildren: './product-category/product-category.module#ProductCategoryModule' },
             { path: 'order', loadChildren: './order/order.module#OrderModule' },
             { path: 'announcement', loadChildren: './announcement/announcement.module#AnnouncementModule' },
-            { path: 'report', loadChildren: './report/report.module#ReportModule' }
+            { path: 'report', loadChildren: './report/report.module#ReportModule' },
+            { path: 'store', loadChildren: './store/store.module#StoreModule' }
         ]
     }
 

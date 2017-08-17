@@ -29,9 +29,9 @@ export class UtilityService {
     for (var i = 0; i < arr.length; i += 1) {
       let node = arr[i];
       node.children = [];
-      map[node.ID] = i; // use map to look-up the parents
-      if (node.ParentId !== null) {
-        arr[map[node.ParentId]].children.push(node);
+      map[node.id] = i; // use map to look-up the parents
+      if (node.parentID !== null) {
+        arr[map[node.parentID]].children.push(node);
       } else {
         roots.push(node);
       }
@@ -44,9 +44,9 @@ export class UtilityService {
     for (var i = 0; i < arr.length; i += 1) {
       let node = arr[i];
       node.children = [];
-      map[node.ID] = i; // use map to look-up the parents
-      if (node.ParentID !== null) {
-        arr[map[node.ParentID]].children.push(node);
+      map[node.id] = i; // use map to look-up the parents
+      if (node.parentID !== null) {
+        arr[map[node.parentID]].children.push(node);
       } else {
         roots.push(node);
       }

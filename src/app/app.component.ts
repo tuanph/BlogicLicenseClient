@@ -11,16 +11,20 @@ export class AppComponent implements AfterViewChecked {
   constructor(private elementRef: ElementRef) {
 
   }
+
   ngAfterViewChecked() {
     var existsScript = document.getElementById("customJS");
     if (existsScript != null) {
       this.elementRef.nativeElement.removeChild(existsScript);
     }
-    var cusScript = document.createElement("script");
-    cusScript.type = "text/javascript";
-    cusScript.src = "../assets/js/custom.js";
-    cusScript.id = "customJS";
-    this.elementRef.nativeElement.appendChild(cusScript);
+    else {
+      var cusScript = document.createElement("script");
+      cusScript.type = "text/javascript";
+      cusScript.src = "../assets/js/custom.js";
+      cusScript.id = "customJS";
+      this.elementRef.nativeElement.appendChild(cusScript);
+    }
+
   }
 
 }

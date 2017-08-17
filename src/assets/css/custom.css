@@ -4303,3 +4303,14 @@ ul.notifications {
   border: 1px solid #e5e5e5; }
 
 /** /Dropzone.js **/
+
+/** add by tuanph 20170812. **/
+.table > tbody > tr > td {
+     vertical-align: middle;
+}
+.modal {
+  z-index: 100000;
+}
+.alertify .ajs-modal{
+  z-index: 100001;
+}

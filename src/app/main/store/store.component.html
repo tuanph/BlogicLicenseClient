@@ -1,0 +1,240 @@
+<div class="page-title">
+  <div class="title_left">
+    <h3>Stores</h3>
+  </div>
+
+  <div class="title_right">
+    <div class="col-md-10 col-sm-10 col-xs-12 form-group pull-right top_search">
+      <div class="input-group">
+        <input type="text" class="form-control" name="filter" (keyup.enter)="getStores()" [(ngModel)]="filter" placeholder="Search by name, phone#, product key...">
+        <span class="input-group-btn">
+            <button class="btn btn-default" (click)="getStores()" type="button"><i class="fa fa-search" aria-hidden="true"></i> </button>
+         </span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="clearfix"></div>
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+      <div class="x_title">
+        <ul class="nav navbar-right panel_toolbox">
+          <li>
+            <button class="btn btn-success" (click)="showAddModal()">Add new store</button>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+
+        <div class="table-responsive">
+          <table class="table table-striped jambo_table bulk_action">
+            <thead>
+              <tr>
+                <th class="column-title">Token</th>
+                <th class="column-title">Name</th>
+                <th class="column-title">Phone#</th>
+                <th class="column-title">Email</th>
+                <th class="column-title">Address</th>
+                <th class="column-title" ></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let store of stores" [ngClass]="{success: store.expriedType == 0, warning: store.expriedType == 1, danger: store.expriedType == 2, active: store.expriedType == 3 }">
+                <td>{{store.token}}</td>
+                <td>{{store.name}}</td>
+                <td>{{store.phone}}</td>
+                <td>{{store.email}}</td>
+                <td>{{store.address}}</td>
+                <td style="text-align: right" >
+                  <button class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Manage product key" (click)="showManageProductKeyModal(store)"> <i class="fa fa-key" aria-hidden="true"></i></button>
+                  <button class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Edit store" (click)="showEditModal(store.Id)"><i class="fa fa-pencil-square-o"></i> </button>
+                  <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Delete store" (click)="deleteStore(store.Id)"><i class="fa fa-trash"></i> </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-12">
+          <pagination [boundaryLinks]="true" [totalItems]="totalItems" [(ngModel)]="pageIndex" [itemsPerPage]="pageSize" class="pagination-sm"
+            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" (pageChanged)="pageChanged($event)">
+          </pagination>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div [config]="modalConfigs" bsModal #addEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Add / Edit</h4>
+        <button type="button" class="close pull-right" (click)="closeAddEditModal()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal form-label-left input_mask" novalidate #addEditForm="ngForm" (ngSubmit)="saveChanges(addEditForm)"
+          *ngIf="entity">
+
+          <div class="tab-content">
+            <div id="general" class="tab-pane fade in active">
+              <h3>General</h3>
+              <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12">Name</label>
+                <div class="col-md-9 col-sm-9 col-xs-12">
+                  <input type="hidden" [(ngModel)]="entity.id" name="id" />
+                  <input type="text" #name="ngModel" [(ngModel)]="entity.Name" required name="name" class="form-control" />
+                  <small [hidden]="name.valid || (name.pristine && !addEditForm.submitted)" class="text-danger">
+               Name is required !
+              </small>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12">Token</label>
+                <div class="col-md-9 col-sm-9 col-xs-12">
+                  <input type="text" #token="ngModel" [(ngModel)]="entity.token" required minlength="3" name="token" class="form-control" />
+                  <small [hidden]="token.valid || (token.pristine && !addEditForm.submitted)" class="text-danger">
+                Please enter at least 3 characters !
+              </small>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12">Agent</label>
+                <div class="col-md-9 col-sm-9 col-xs-12">
+                  <input type="text" #agent="ngModel" [(ngModel)]="entity.agent" name="agent" class="form-control" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12">Phone#</label>
+                <div class="col-md-9 col-sm-9 col-xs-12">
+                  <input type="tel" #phone="ngModel" [(ngModel)]="entity.phone" name="phone" class="form-control" />
+                  <small [hidden]="phone.valid || (phone.pristine && !addEditForm.submitted)" class="text-danger">
+                Please enter phone# !
+              </small>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12">Email</label>
+                <div class="col-md-9 col-sm-9 col-xs-12">
+                  <input type="email" #email="ngModel" [(ngModel)]="entity.email" name="email" class="form-control" />
+                  <small [hidden]="email.valid || (email.pristine && !addEditForm.submitted)" class="text-danger">
+                Please enter email address !
+              </small>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12">Address</label>
+                <div class="col-md-9 col-sm-9 col-xs-12">
+                  <input type="text" #address="ngModel" [(ngModel)]="entity.address" name="address" class="form-control" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ln_solid"></div>
+          <div class="form-group">
+            <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+              <button type="button" (click)="closeAddEditModal()" class="btn btn-primary">Cancel</button>
+              <button type="submit" class="btn btn-success" [disabled]="!addEditForm.form.valid">Save</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Manage license key -->
+<div *ngIf="productKeyEntity" [config]="modalConfigs" bsModal #manageProductKeyModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="manageProductKeyModalModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Manage product key</h4>
+        <button type="button" class="close pull-right" (click)="closemanageProductKeyModal()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal form-label-left input_mask" novalidate #manageProductKeyModalForm="ngForm" (ngSubmit)="editProductKey(manageProductKeyModalForm)"
+          *ngIf="entity">
+          <div class="tab-content">
+            <div id="product-Key" class="tab-pane fade in active">
+              <h3>Product keys</h3>
+              <form class="form-horizontal form-label-left input_mask" novalidate #productKeyForm="ngForm" (ngSubmit)="addMoreProductKey(productKeyForm)">
+                <div class="form-group row">
+                  <div class="col-xs-2">
+                    <label>Software</label>
+                    <select class="form-control" name="categoryID" [(ngModel)]="productKeyEntity.softwareID">
+                        <option *ngFor="let x of softwares" [value]="x.id">{{x.name}}</option>
+                    </select>
+                    <input type="hidden" name="productKeyEntity.softwareID" class="form-control" />
+                  </div>
+
+                  <div class="col-xs-2">
+                    <label for="ex2">Date expried</label>
+                    <input type="text" #dateExpire="ngModel" (selected)="selectedDate($event)" daterangepicker [options]="dateOptions" [(ngModel)]="productKeyEntity.dateExpire"
+                      name="dateExpire" class="form-control">
+                  </div>
+
+                  <div class="col-xs-6">
+                    <label for="ex2">Key</label>
+                    <input type="text" #key="ngModel" [(ngModel)]="productKeyEntity.key" name="key" class="form-control" required>
+                    <small [hidden]="key.valid || (key.pristine && !productKeyForm.submitted)" class="text-danger">
+                Key is required !
+              </small>
+                  </div>
+
+                  <div class="col-xs-2" style="margin-top: 24px">
+                    <button type="submit" class="btn btn-primary mt-24" [disabled]="!productKeyForm.valid">Add</button>
+                  </div>
+                </div>
+              </form>
+
+              <table class="table" *ngIf="entity.productKeys && entity.productKeys.length > 0">
+                <thead>
+                  <tr>
+                    <th>Software</th>
+                    <th>Date expire</th>
+                    <th>Key</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let pr of entity.productKeys">
+                    <td class="col-xs-2">
+                      <select disabled class="form-control" [(ngModel)]="pr.softwareID" [ngModelOptions]="{standalone: true}">
+                        <option *ngFor="let y of softwares" [value]="y.id" >{{y.name}}</option>
+                    </select>
+                    </td>
+                    <td class="col-xs-2">
+                      {{pr.dateExpire}}
+                    </td>
+                    <td class="col-xs-6">
+                      {{pr.key}}
+                    </td>
+                    <td class="col-xs-2">
+                      <button type="button" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Remove this key" (click)="removeProductKey(pr)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+          <div class="ln_solid"></div>
+          <div class="form-group">
+            <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+              <button type="button" (click)="closemanageProductKeyModal()" class="btn btn-primary">Cancel</button>
+              <button type="submit" class="btn btn-success" [disabled]="!manageProductKeyModalForm.form.valid">Save</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
