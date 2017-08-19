@@ -36,6 +36,7 @@
                 <th class="column-title">Name</th>
                 <th class="column-title">Phone#</th>
                 <th class="column-title">Email</th>
+                <th class="column-title">Agent</th>
                 <th class="column-title">Address</th>
                 <th class="column-title" ></th>
               </tr>
@@ -46,11 +47,12 @@
                 <td>{{store.name}}</td>
                 <td>{{store.phone}}</td>
                 <td>{{store.email}}</td>
+                <td>{{store.agent}}</td>
                 <td>{{store.address}}</td>
                 <td style="text-align: right" >
                   <button class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Manage product key" (click)="showManageProductKeyModal(store)"> <i class="fa fa-key" aria-hidden="true"></i></button>
-                  <button class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Edit store" (click)="showEditModal(store.Id)"><i class="fa fa-pencil-square-o"></i> </button>
-                  <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Delete store" (click)="deleteStore(store.Id)"><i class="fa fa-trash"></i> </button>
+                  <button class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Edit store" (click)="showEditModal(store)"><i class="fa fa-pencil-square-o"></i> </button>
+                  <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Delete store" (click)="deleteStore(store.id)"><i class="fa fa-trash"></i> </button>
                 </td>
               </tr>
             </tbody>
@@ -88,7 +90,7 @@
                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Name</label>
                 <div class="col-md-9 col-sm-9 col-xs-12">
                   <input type="hidden" [(ngModel)]="entity.id" name="id" />
-                  <input type="text" #name="ngModel" [(ngModel)]="entity.Name" required name="name" class="form-control" />
+                  <input type="text" #name="ngModel" [(ngModel)]="entity.name" required name="name" class="form-control" />
                   <small [hidden]="name.valid || (name.pristine && !addEditForm.submitted)" class="text-danger">
                Name is required !
               </small>

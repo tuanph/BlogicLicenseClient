@@ -79,6 +79,12 @@ export class StoreComponent implements OnInit {
     this.addEditModal.show();
   }
 
+  public showEditModal(store: any) {
+    this.entity = store;
+    this.addEditModal.show();
+  }
+
+
   public showManageProductKeyModal(store: any) {
     this.entity = store;
     if (this.entity.productKeys.length == 0) {
@@ -127,8 +133,20 @@ export class StoreComponent implements OnInit {
   }
   public saveChanges(form: NgForm) {
     if (form.valid) {
-      if (this.entity.Id == undefined) {
+      if (this.entity.id == undefined) {
         this.dataService.post("/api/store/add", JSON.stringify(this.entity))
+          .subscribe((response: any) => {
+            this.getStores();
+            this.addEditModal.hide();
+            this.notificationService.printSuccessMessage(MessageConstants.CREATED_OK_MSG);
+            form.resetForm();
+            this.productKeyForm.resetForm();
+          }, (error) => {
+            console.log(error);
+            this.dataService.handleError(error);
+          });
+      } else {
+        this.dataService.put("/api/store/editBasic", JSON.stringify(this.entity))
           .subscribe((response: any) => {
             this.getStores();
             this.addEditModal.hide();
@@ -145,15 +163,26 @@ export class StoreComponent implements OnInit {
   public removeProductKeyConfirm(productKey: any) {
     let index: number = this.entity.productKeys.indexOf(productKey);
     if (index != -1) {
-      this.entity.productKeys.splice(index,1);
+      this.entity.productKeys.splice(index, 1);
     }
   }
 
+  public deleteStore(storeID: number) {
+    this.notificationService.printConfirmationDialog(MessageConstants.CONFIRM_DELETE_MSG, () => this.removeStoreConfirm(storeID));
+  }
+
+  public removeStoreConfirm(id: number) {
+    this.dataService.delete("/api/store/delete", "id", id.toString()).subscribe(() => {
+      this.notificationService.printSuccessMessage(MessageConstants.DELETED_OK_MSG);
+      this.getStores();
+    });
+  }
   public selectedDate(value: any) {
     this.productKeyEntity.dateExpire = moment(value.end._d).format('MM/DD/YYYY');
   }
 
   public closeAddEditModal() {
+    this.getStores();
     this.addEditForm.resetForm();
     this.addEditModal.hide();
   }
