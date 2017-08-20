@@ -28,6 +28,7 @@
                 <th class="column-title">Device</th>
                 <th class="column-title">Date Connected</th>
                 <th class="column-title">Store</th>
+                <th ></th>
               </tr>
             </thead>
             <tbody>
@@ -38,10 +39,10 @@
                     <option *ngFor="let y of softwares" [value]="y.id" >{{y.name}}</option>
                   </select>
                 </td>
-                <td>{{key.device}}</td>
+                <td>{{key.deviceName}}</td>
                 <td>{{key.dateConnected | date:"MM/dd/yyyy" }}</td>
                 <td>
-                  <select disabled class="form-control" [(ngModel)]="currentStoreId" [ngModelOptions]="{standalone: true}">
+                  <select  class="form-control" [(ngModel)]="currentStoreId" [ngModelOptions]="{standalone: true}">
                         <option *ngFor="let st of stores" [value]="st.id" >{{st.token}}--{{st.name}}</option>
                       </select>
                 </td>

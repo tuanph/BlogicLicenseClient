@@ -8,9 +8,9 @@ import { MessageConstants } from '../../core/common/message.constants';
 import { NgForm } from '@angular/forms';
 
 @Component({
-  selector: 'app-unregister-product',
-  templateUrl: './unregister-product.component.html',
-  styleUrls: ['./unregister-product.component.css']
+  selector: 'app-unregister-key',
+  templateUrl: './unregister-key.component.html',
+  styleUrls: ['./unregister-key.component.css']
 })
 export class UnregisterKeyComponent implements OnInit {
 
@@ -28,7 +28,7 @@ export class UnregisterKeyComponent implements OnInit {
   public keys: string = "";
   public softwares: any[];
   public stores: any[];
-
+  public currentStoreId: number = 1;
   constructor(private dataService: DataService, private notificationService: NotificationService) {
 
   }

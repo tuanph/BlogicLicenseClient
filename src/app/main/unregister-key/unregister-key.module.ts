@@ -19,6 +19,7 @@ let unregisterKeyRouters: Routes = [
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     RouterModule.forChild(unregisterKeyRouters),
     PaginationModule.forRoot(),
     ModalModule.forRoot(),
