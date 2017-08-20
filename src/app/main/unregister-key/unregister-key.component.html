@@ -1,0 +1,63 @@
+<div class="page-title">
+  <div class="title_left">
+    <h3>Unregister Keys</h3>
+  </div>
+
+  <div class="title_right">
+    <div class="col-md-10 col-sm-10 col-xs-12 form-group pull-right top_search">
+      <div class="input-group">
+        <input type="text" class="form-control" name="filter" (keyup.enter)="getUnregisterProducts()" [(ngModel)]="filter" placeholder="Search by name, phone#, product key...">
+        <span class="input-group-btn">
+            <button class="btn btn-default" (click)="getUnregisterProducts()" type="button"><i class="fa fa-search" aria-hidden="true"></i> </button>
+         </span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="clearfix"></div>
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+      <div class="x_content">
+        <div class="table-responsive">
+          <table class="table table-striped jambo_table bulk_action">
+            <thead>
+              <tr>
+                <th class="column-title">Key</th>
+                <th class="column-title">Software</th>
+                <th class="column-title">Device</th>
+                <th class="column-title">Date Connected</th>
+                <th class="column-title">Store</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let key of keys">
+                <td>{{key.key}}</td>
+                <td>
+                  <select disabled class="form-control" [(ngModel)]="key.softwareID" [ngModelOptions]="{standalone: true}">
+                    <option *ngFor="let y of softwares" [value]="y.id" >{{y.name}}</option>
+                  </select>
+                </td>
+                <td>{{key.device}}</td>
+                <td>{{key.dateConnected | date:"MM/dd/yyyy" }}</td>
+                <td>
+                  <select disabled class="form-control" [(ngModel)]="currentStoreId" [ngModelOptions]="{standalone: true}">
+                        <option *ngFor="let st of stores" [value]="st.id" >{{st.token}}--{{st.name}}</option>
+                      </select>
+                </td>
+                <td style="text-align: right">
+                  <button class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Edit store" (click)="registerProduct(productKey)"><i class="fa fa-pencil-square-o"></i> </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-12">
+          <pagination [boundaryLinks]="true" [totalItems]="totalItems" [(ngModel)]="pageIndex" [itemsPerPage]="pageSize" class="pagination-sm"
+            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" (pageChanged)="pageChanged($event)">
+          </pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

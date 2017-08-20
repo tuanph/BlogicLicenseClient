@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { DataService } from '../../core/services/data.service';
 import { NotificationService } from '../../core/services/notification.service';
 import { UtilityService } from '../../core/services/utility.service';
@@ -20,7 +21,6 @@ export class StoreComponent implements OnInit {
   public totalItems: number;
   public filter: string = "";
   public entity: any = {};
-  public loading: boolean = false;
   public productKeyEntity: any = {};
   public softwares: any[];
 
@@ -50,7 +50,7 @@ export class StoreComponent implements OnInit {
   }
 
   getSoftwares() {
-    this.loading = true;
+
     let url = "/api/software/getall";
     this.dataService.get(url)
       .subscribe((response: any) => {
@@ -59,13 +59,11 @@ export class StoreComponent implements OnInit {
   }
 
   public getStores() {
-    this.loading = true;
     let url = "/api/store/getlistpaging?pageIndex=" + this.pageIndex + "&pageSize=" + this.pageSize + "&filter=" + this.filter;
     this.dataService.get(url)
       .subscribe((response: any) => {
         this.stores = response.items;
         this.totalItems = response.totalRows;
-        this.loading = false;
       });
   }
 

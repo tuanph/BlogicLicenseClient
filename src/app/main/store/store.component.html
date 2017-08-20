@@ -38,7 +38,7 @@
                 <th class="column-title">Email</th>
                 <th class="column-title">Agent</th>
                 <th class="column-title">Address</th>
-                <th class="column-title" ></th>
+                <th class="column-title"></th>
               </tr>
             </thead>
             <tbody>
@@ -49,7 +49,7 @@
                 <td>{{store.email}}</td>
                 <td>{{store.agent}}</td>
                 <td>{{store.address}}</td>
-                <td style="text-align: right" >
+                <td style="text-align: right">
                   <button class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Manage product key" (click)="showManageProductKeyModal(store)"> <i class="fa fa-key" aria-hidden="true"></i></button>
                   <button class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Edit store" (click)="showEditModal(store)"><i class="fa fa-pencil-square-o"></i> </button>
                   <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Delete store" (click)="deleteStore(store.id)"><i class="fa fa-trash"></i> </button>
@@ -151,8 +151,8 @@
 </div>
 
 <!-- Manage license key -->
-<div *ngIf="productKeyEntity" [config]="modalConfigs" bsModal #manageProductKeyModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="manageProductKeyModalModalLabel"
-  aria-hidden="true">
+<div *ngIf="productKeyEntity" [config]="modalConfigs" bsModal #manageProductKeyModal="bs-modal" class="modal fade" tabindex="-1"
+  role="dialog" aria-labelledby="manageProductKeyModalModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -171,7 +171,7 @@
                 <div class="form-group row">
                   <div class="col-xs-2">
                     <label>Software</label>
-                    <select class="form-control" name="categoryID" [(ngModel)]="productKeyEntity.softwareID">
+                    <select class="form-control" name="softwareID" [(ngModel)]="productKeyEntity.softwareID">
                         <option *ngFor="let x of softwares" [value]="x.id">{{x.name}}</option>
                     </select>
                     <input type="hidden" name="productKeyEntity.softwareID" class="form-control" />
@@ -214,7 +214,7 @@
                     </select>
                     </td>
                     <td class="col-xs-2">
-                      {{pr.dateExpire}}
+                      {{pr.dateExpire | date:"MM/dd/yyyy" }}
                     </td>
                     <td class="col-xs-6">
                       {{pr.key}}

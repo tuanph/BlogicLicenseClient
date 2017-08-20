@@ -13,7 +13,8 @@ export const mainRoutes: Routes = [
             { path: 'order', loadChildren: './order/order.module#OrderModule' },
             { path: 'announcement', loadChildren: './announcement/announcement.module#AnnouncementModule' },
             { path: 'report', loadChildren: './report/report.module#ReportModule' },
-            { path: 'store', loadChildren: './store/store.module#StoreModule' }
+            { path: 'store', loadChildren: './store/store.module#StoreModule' },
+            { path: 'unregister-key', loadChildren: './unregister-key/unregister-key.module#UnregisterKeyModule' }
         ]
     }
 

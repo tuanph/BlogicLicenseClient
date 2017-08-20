@@ -4308,9 +4308,18 @@ ul.notifications {
 .table > tbody > tr > td {
      vertical-align: middle;
 }
+.nav-md .container.body .col-md-3.left_col {
+  z-index: 2999;
+}
 .modal {
-  z-index: 10000;
+  z-index: 3000;
+}
+.daterangepicker.dropdown-menu {
+  z-index: 3001;
 }
 .alertify .ajs-modal{
-  z-index: 10001;
+  z-index: 3002;
+}
+.alertify-notifier {
+  z-index: 3003;
 }
