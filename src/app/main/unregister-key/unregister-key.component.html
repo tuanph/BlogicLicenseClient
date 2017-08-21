@@ -28,7 +28,8 @@
                 <th class="column-title">Device</th>
                 <th class="column-title">Date Connected</th>
                 <th class="column-title">Store</th>
-                <th ></th>
+                <th class="column-title">Date Expried</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -40,14 +41,18 @@
                   </select>
                 </td>
                 <td>{{key.deviceName}}</td>
-                <td>{{key.dateConnected | date:"MM/dd/yyyy" }}</td>
+                <td>{{key.dateConnected | date:"short" }}</td>
                 <td>
-                  <select  class="form-control" [(ngModel)]="currentStoreId" [ngModelOptions]="{standalone: true}">
+                  <select class="form-control" [(ngModel)]="key.storeID" [ngModelOptions]="{standalone: true}">
                         <option *ngFor="let st of stores" [value]="st.id" >{{st.token}}--{{st.name}}</option>
                       </select>
                 </td>
+                <td>
+                  <input type="text" #dateExpire="ngModel" (selected)="selectedDate($event)" date-only="true" date-format="MM-DD-YYYY" daterangepicker
+                   (showCalendarDaterangepicker)="showCalendarDaterangepicker($event)" [options]="dateOptions" [(ngModel)]="key.dateExpried" name="dateExpire" class="form-control">
+                </td>
                 <td style="text-align: right">
-                  <button class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Edit store" (click)="registerProduct(productKey)"><i class="fa fa-pencil-square-o"></i> </button>
+                  <button class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Register" (click)="registerProduct(productKey)">Register</button>
                 </td>
               </tr>
             </tbody>

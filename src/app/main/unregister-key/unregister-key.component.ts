@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { DataService } from '../../core/services/data.service';
 import { NotificationService } from '../../core/services/notification.service';
@@ -6,6 +6,8 @@ import { UtilityService } from '../../core/services/utility.service';
 import { ModalDirective, ModalOptions } from 'ngx-bootstrap/modal';
 import { MessageConstants } from '../../core/common/message.constants';
 import { NgForm } from '@angular/forms';
+// import {DaterangePickerComponent} from 'ng2-daterangepicker';
+import { Daterangepicker } from 'ng2-daterangepicker';
 
 @Component({
   selector: 'app-unregister-key',
@@ -15,12 +17,13 @@ import { NgForm } from '@angular/forms';
 export class UnregisterKeyComponent implements OnInit {
 
 
-  public dateOptions: any = {
+  public dateOptions = {
     locale: { format: 'MM/DD/YYYY' },
     alwaysShowCalendars: false,
-    singleDatePicker: true
+    singleDatePicker: true,
+    startDate:'09/10/2017'
   };
-
+  @ViewChild('dateExpire') public picker: Daterangepicker;
   public pageIndex: number = 1;
   public pageSize: number = 20;
   public totalItems: number;
@@ -28,7 +31,6 @@ export class UnregisterKeyComponent implements OnInit {
   public keys: string = "";
   public softwares: any[];
   public stores: any[];
-  public currentStoreId: number = 1;
   constructor(private dataService: DataService, private notificationService: NotificationService) {
 
   }
@@ -44,6 +46,9 @@ export class UnregisterKeyComponent implements OnInit {
     this.dataService.get(url)
       .subscribe((response: any) => {
         this.keys = response.items;
+        // for (var key of this.keys) {
+        //   key.dateExpired = moment(key.dateExpired).format('MM/DD/YYYY');
+        // }
         this.totalItems = response.totalRows;
       });
   }
@@ -68,5 +73,11 @@ export class UnregisterKeyComponent implements OnInit {
     this.getUnregisterKeys();
   }
 
+  public selectedDate(value: any) {
+    // this.productKeyEntity.dateExpire = moment(value.end._d).format('MM/DD/YYYY');
+  }
+  public showCalendarDaterangepicker(value: any) {
+    console.log(value);
+  }
 
 }
