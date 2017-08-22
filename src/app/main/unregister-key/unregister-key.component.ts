@@ -47,9 +47,6 @@ export class UnregisterKeyComponent implements OnInit {
     this.dataService.get(url)
       .subscribe((response: any) => {
         this.keys = response.items;
-        // for (var k of this.keys) {
-        //   k.dateExpired = moment(k.dateExpired).format('MM/DD/YYYY');
-        // }
         this.totalItems = response.totalRows;
       });
   }
@@ -69,6 +66,23 @@ export class UnregisterKeyComponent implements OnInit {
       });
   }
 
+  registerProduct(pk: any) {
+    let productKeyViewModel: any = {};
+    productKeyViewModel.dateExpried = pk.dateExpried;//moment( pk.dateExpried).format('MM/DD/YYYY')
+    productKeyViewModel.key = pk.key;
+    productKeyViewModel.storeID = pk.storeID;
+    productKeyViewModel.softwareID = pk.softwareID;
+    this.dataService.post('/api/unregisterKey/registerkey', JSON.stringify(productKeyViewModel)).subscribe(
+      (response: any) => {
+        this.notificationService.printSuccessMessage(MessageConstants.CREATED_OK_MSG);
+        this.getUnregisterKeys();
+      },
+      (error: any) => {
+        this.dataService.handleError(error);
+      }
+    );
+
+  }
   public pageChanged(event: any) {
     this.pageIndex = event.page;
     this.getUnregisterKeys();

@@ -14,6 +14,7 @@ export class TopMenuComponent implements OnInit {
   public baseFolder: string = SystemConstants.BASE_API;
   public canSendMessage: Boolean;
   public announcements: any[];
+  public keys: any[];
   constructor(private _authenService: AuthenService, private _signalRService: SignalrService,
     private _dataService: DataService,
     private _ngZone: NgZone) {
@@ -26,6 +27,7 @@ export class TopMenuComponent implements OnInit {
   ngOnInit() {
     this.user = this._authenService.getLoginUser();
     this.loadAnnouncements();
+    this.loadUnregisterKeys();
   }
   private subscribeToEvents(): void {
 
@@ -67,7 +69,17 @@ export class TopMenuComponent implements OnInit {
     });
   }
 
-    logout() {
+  private loadUnregisterKeys() {
+    this._dataService.get('/api/unregisterKey/getall').subscribe((response: any) => {
+      this.keys = [];
+      for (let key of response) {
+        key.dateConnected = moment(key.dateConnected).fromNow();
+        this.keys.push(key);
+      }
+    });
+  }
+
+  logout() {
     this._authenService.logout();
   }
 

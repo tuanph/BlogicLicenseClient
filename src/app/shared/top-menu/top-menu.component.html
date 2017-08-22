@@ -28,7 +28,7 @@
           <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                 <i class="fa fa-envelope-o"></i>
                 <span class="badge bg-green" *ngIf="announcements && announcements.length > 0">{{announcements.length}}</span>
-              </a>
+          </a>
           <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
             <li *ngFor="let item of announcements">
               <a (click)="markAsRead(item.ID)">
@@ -54,6 +54,37 @@
             </li>
           </ul>
         </li>
+
+        <li role="presentation" class="dropdown">
+          <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+               <i class="fa fa-unlock" aria-hidden="true"  height="15" width="15" ></i>
+                <span class="badge bg-green" *ngIf="keys && keys.length > 0" >{{keys.length}}</span>
+          </a>
+          <ul id="menu2" class="dropdown-menu list-unstyled uk_list" role="menu">
+            <li *ngFor="let item of keys">
+              <a (click)="markAsRead(item.id)">
+                <span class="image"><img src="https://d30y9cdsu7xlg0.cloudfront.net/png/4725-200.png" height="15" width="15" alt="" /></span>
+                <span>
+                      <span>{{item.key}}</span>
+                      <span class="time">{{item.dateConnected}}</span>
+                </span>
+                <span class="message">
+                   <!-- {{item.key}} -->
+                </span>
+              </a>
+            </li>
+
+            <li>
+              <div class="text-center">
+                <a>
+                      <strong>See All UnregiserKey</strong>
+                      <i class="fa fa-angle-right"></i>
+                </a>
+              </div>
+            </li>
+          </ul>
+        </li>
+
       </ul>
     </nav>
   </div>

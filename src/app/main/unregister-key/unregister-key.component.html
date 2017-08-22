@@ -48,24 +48,23 @@
                       </select>
                 </td>
                 <td>
-
                   <input type="text" #dateExpire="ngModel" (selected)="selectedDate($event)" date-only="true" date-format="MM-DD-YYYY" daterangepicker
                     (ngModelChange)="key.dateExpried = $event" (showCalendarDaterangepicker)="showCalendarDaterangepicker($event)"
                     [options]="dateOptions" [(ngModel)]="key.dateExpried" name="dateExpire" class="form-control">
                 </td>
                 <td style="text-align: right">
-                  <button class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Register" (click)="registerProduct(productKey)">Register</button>
+                  <button class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Register product key" (click)="registerProduct(key)"> <i class="fa fa-unlock" aria-hidden="true"></i></button>
                 </td>
               </tr>
             </tbody>
           </table>
-        </div>
-        <div class="col-md-12">
-          <pagination [boundaryLinks]="true" [totalItems]="totalItems" [(ngModel)]="pageIndex" [itemsPerPage]="pageSize" class="pagination-sm"
-            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" (pageChanged)="pageChanged($event)">
-          </pagination>
+
+          <div class="col-md-12">
+            <pagination [boundaryLinks]="true" [totalItems]="totalItems" [(ngModel)]="pageIndex" [itemsPerPage]="pageSize" class="pagination-sm"
+              previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" (pageChanged)="pageChanged($event)">
+            </pagination>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
