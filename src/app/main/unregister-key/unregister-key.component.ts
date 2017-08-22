@@ -21,14 +21,15 @@ export class UnregisterKeyComponent implements OnInit {
     locale: { format: 'MM/DD/YYYY' },
     alwaysShowCalendars: false,
     singleDatePicker: true,
-    startDate:'09/10/2017'
+    showDropdowns: true,
+    autoUpdateInput: true
   };
   @ViewChild('dateExpire') public picker: Daterangepicker;
   public pageIndex: number = 1;
   public pageSize: number = 20;
   public totalItems: number;
   public filter: string = "";
-  public keys: string = "";
+  public keys: any[];
   public softwares: any[];
   public stores: any[];
   constructor(private dataService: DataService, private notificationService: NotificationService) {
@@ -46,8 +47,8 @@ export class UnregisterKeyComponent implements OnInit {
     this.dataService.get(url)
       .subscribe((response: any) => {
         this.keys = response.items;
-        // for (var key of this.keys) {
-        //   key.dateExpired = moment(key.dateExpired).format('MM/DD/YYYY');
+        // for (var k of this.keys) {
+        //   k.dateExpired = moment(k.dateExpired).format('MM/DD/YYYY');
         // }
         this.totalItems = response.totalRows;
       });
@@ -77,7 +78,14 @@ export class UnregisterKeyComponent implements OnInit {
     // this.productKeyEntity.dateExpire = moment(value.end._d).format('MM/DD/YYYY');
   }
   public showCalendarDaterangepicker(value: any) {
-    console.log(value);
+    // console.log(value.picker);
+    // let currentDateTime = value.picker.element[0].value;
+    // value.picker.setStartDate(value.picker.element[0].value);
+    // value.picker.updateCalendars();
+    // value.picker.setStartDate =moment(currentDateTime);
+    // value.picker.setEndDate =moment(currentDateTime);
+    // value.picker.oldStartDate =moment(currentDateTime);
+    // value.picker.oldEndDate =moment(currentDateTime);
   }
 
 }

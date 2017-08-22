@@ -27,7 +27,9 @@ export class StoreComponent implements OnInit {
   public dateOptions: any = {
     locale: { format: 'MM/DD/YYYY' },
     alwaysShowCalendars: false,
-    singleDatePicker: true
+    singleDatePicker: true,
+    showDropdowns: true,
+    autoUpdateInput: true
   };
   public modalConfigs: ModalOptions = {
     animated: true,
