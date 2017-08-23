@@ -206,7 +206,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let pr of entity.productKeys">
+                  <tr *ngFor="let pr of entity.productKeys" [ngClass]="checkTypeProductKey(pr)" >
                     <td class="col-xs-2">
                       <select disabled class="form-control" [(ngModel)]="pr.softwareID" [ngModelOptions]="{standalone: true}">
                         <option *ngFor="let y of softwares" [value]="y.id" >{{y.name}}</option>

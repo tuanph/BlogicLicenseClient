@@ -192,4 +192,14 @@ export class StoreComponent implements OnInit {
     this.manageProductKeyModalForm.resetForm();
     this.manageProductKeyModal.hide();
   }
+  public checkTypeProductKey(pk: any): string {
+    let todaysDate = moment(new Date());
+    let dateExpire = moment(pk.dateExpire);
+    var diffDays = dateExpire.diff(todaysDate, 'days');
+    if (diffDays > 3)
+      return "success";
+    if (diffDays <= 3 && diffDays >= 0)
+      return "warning";
+    return "danger";
+  }
 }

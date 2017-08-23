@@ -15,6 +15,7 @@ export class TopMenuComponent implements OnInit {
   public canSendMessage: Boolean;
   public announcements: any[];
   public keys: any[];
+  public totalUnregisterKeys: number = 0;
   constructor(private _authenService: AuthenService, private _signalRService: SignalrService,
     private _dataService: DataService,
     private _ngZone: NgZone) {
@@ -48,6 +49,11 @@ export class TopMenuComponent implements OnInit {
         self.announcements.push(announcement);
       });
     });
+
+    //Handle the number of unregister kyes changed
+    this._signalRService.totalUnregisterKeyReceived.subscribe((total: number) => {
+      this.totalUnregisterKeys = total;
+    });
   }
 
   markAsRead(id: number) {
@@ -76,6 +82,7 @@ export class TopMenuComponent implements OnInit {
         key.dateConnected = moment(key.dateConnected).fromNow();
         this.keys.push(key);
       }
+      this.totalUnregisterKeys = this.keys.length;
     });
   }
 

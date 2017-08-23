@@ -69,6 +69,7 @@ export class UnregisterKeyComponent implements OnInit {
   registerProduct(pk: any) {
     let productKeyViewModel: any = {};
     productKeyViewModel.dateExpried = pk.dateExpried;//moment( pk.dateExpried).format('MM/DD/YYYY')
+    alert(productKeyViewModel.dateExpried);
     productKeyViewModel.key = pk.key;
     productKeyViewModel.storeID = pk.storeID;
     productKeyViewModel.softwareID = pk.softwareID;
@@ -88,8 +89,8 @@ export class UnregisterKeyComponent implements OnInit {
     this.getUnregisterKeys();
   }
 
-  public selectedDate(value: any) {
-    // this.productKeyEntity.dateExpire = moment(value.end._d).format('MM/DD/YYYY');
+  public selectedDate(value: any,key:any) {
+    key.dateExpried = moment(value.end._d).format('MM/DD/YYYY');
   }
   public showCalendarDaterangepicker(value: any) {
     // console.log(value.picker);

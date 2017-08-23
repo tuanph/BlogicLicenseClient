@@ -48,7 +48,7 @@
                       </select>
                 </td>
                 <td>
-                  <input type="text" #dateExpire="ngModel" (selected)="selectedDate($event)" date-only="true" date-format="MM-DD-YYYY" daterangepicker
+                  <input type="text" #dateExpire="ngModel" (selected)="selectedDate($event,key)" date-only="true" date-format="MM-DD-YYYY" daterangepicker
                     (ngModelChange)="key.dateExpried = $event" (showCalendarDaterangepicker)="showCalendarDaterangepicker($event)"
                     [options]="dateOptions" [(ngModel)]="key.dateExpried" name="dateExpire" class="form-control">
                 </td>

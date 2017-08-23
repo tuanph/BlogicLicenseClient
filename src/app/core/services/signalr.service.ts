@@ -12,11 +12,13 @@ export class SignalrService {
   // create the Event Emitter  
   public announcementReceived: EventEmitter<any>;
   public connectionEstablished: EventEmitter<Boolean>;
+  public totalUnregisterKeyReceived: EventEmitter<number>;
   public connectionExists: Boolean;
 
   constructor(private _authenService: AuthenService) {
     // Constructor initialization  
     this.connectionEstablished = new EventEmitter<Boolean>();
+    this.totalUnregisterKeyReceived = new EventEmitter<number>();
     this.announcementReceived = new EventEmitter<any>();
     this.connectionExists = false;
 
@@ -29,7 +31,7 @@ export class SignalrService {
 
     // register on server events  
     this.registerOnServerEvents();
-    
+
     // call the connecion start method to start the connection to send and receive events.  
     this.startConnection();
   }
@@ -48,6 +50,9 @@ export class SignalrService {
   private registerOnServerEvents(): void {
     this.proxy.on('addAnnouncement', (announcement: any) => {
       this.announcementReceived.emit(announcement);
+    });
+    this.proxy.on('totalUnregisterKey', (total: number) => {
+      this.totalUnregisterKeyReceived.emit(total);
     });
   }
 }
