@@ -15,7 +15,7 @@ export class TopMenuComponent implements OnInit {
   public canSendMessage: Boolean;
   public announcements: any[];
   public keys: any[];
-  public totalUnregisterKeys: number = 0;
+  public totalUnregisterKeys: number;
   constructor(private _authenService: AuthenService, private _signalRService: SignalrService,
     private _dataService: DataService,
     private _ngZone: NgZone) {
@@ -34,7 +34,7 @@ export class TopMenuComponent implements OnInit {
 
     var self = this;
     self.announcements = [];
-
+    self.totalUnregisterKeys = 0;
     // if connection exists it can call of method.  
     this._signalRService.connectionEstablished.subscribe(() => {
       this.canSendMessage = true;
@@ -50,9 +50,11 @@ export class TopMenuComponent implements OnInit {
       });
     });
 
-    //Handle the number of unregister kyes changed
+    //Handle the number of unregister keys changed
     this._signalRService.totalUnregisterKeyReceived.subscribe((total: number) => {
-      this.totalUnregisterKeys = total;
+      this._ngZone.run(() => {
+        self.totalUnregisterKeys = total;
+      });
     });
   }
 

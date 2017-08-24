@@ -24,7 +24,6 @@ export class AppComponent implements AfterViewChecked {
       cusScript.id = "customJS";
       this.elementRef.nativeElement.appendChild(cusScript);
     }
-
   }
 
 }
