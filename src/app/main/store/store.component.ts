@@ -7,7 +7,6 @@ import { ModalDirective, ModalOptions } from 'ngx-bootstrap/modal';
 import { MessageConstants } from '../../core/common/message.constants';
 import { NgForm } from '@angular/forms';
 declare var moment: any;
-
 @Component({
   selector: 'app-store',
   templateUrl: './store.component.html',
@@ -193,7 +192,10 @@ export class StoreComponent implements OnInit {
     this.manageProductKeyModal.hide();
   }
   public checkTypeProductKey(pk: any): string {
-    let todaysDate = moment(new Date());
+
+    let currentTime = new Date();
+    currentTime.setHours(0, 0, 0, 0);
+    let todaysDate = moment(currentTime);
     let dateExpire = moment(pk.dateExpire);
     var diffDays = dateExpire.diff(todaysDate, 'days');
     if (diffDays > 3)

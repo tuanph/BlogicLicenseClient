@@ -69,7 +69,6 @@ export class UnregisterKeyComponent implements OnInit {
   registerProduct(pk: any) {
     let productKeyViewModel: any = {};
     productKeyViewModel.dateExpried = pk.dateExpried;//moment( pk.dateExpried).format('MM/DD/YYYY')
-    alert(productKeyViewModel.dateExpried);
     productKeyViewModel.key = pk.key;
     productKeyViewModel.storeID = pk.storeID;
     productKeyViewModel.softwareID = pk.softwareID;
