@@ -9,6 +9,7 @@ import { SystemConstants } from '../../core/common/system.constants';
 import { NgForm } from '@angular/forms';
 import { IMultiSelectOption } from 'angular-2-dropdown-multiselect';
 import { UploadService } from '../../core/services/upload.service';
+import { DatePipe } from '@angular/common';
 declare var moment: any;
 
 @Component({
@@ -33,10 +34,13 @@ export class UserComponent implements OnInit {
   public allRoles: IMultiSelectOption[] = [];
   public roles: any[];
 
-  public dateOptions: any = {
-    locale: { format: 'DD/MM/YYYY' },
+
+  public dateOptions = {
+    locale: { format: 'MM/DD/YYYY' },
     alwaysShowCalendars: false,
-    singleDatePicker: true
+    singleDatePicker: true,
+    showDropdowns: true,
+    autoUpdateInput: true
   };
 
   constructor(private _dataService: DataService, private _notificationService: NotificationService,
@@ -55,18 +59,19 @@ export class UserComponent implements OnInit {
       this.roles = response;
       this.allRoles = [];
       for (let role of response) {
-        this.allRoles.push({ id: role.Name, name: role.Description });
+        this.allRoles.push({ id: role.name, name: role.description });
       }
     }, error => this._dataService.handleError(error));
+    console.log(this.allRoles);
   }
 
   getUsers() {
     let url = "/api/appUser/getlistpaging?page=" + this.pageIndex + "&pageSize=" + this.pageSize + "&filter=" + this.filter;
     this._dataService.get(url)
       .subscribe((response: any) => {
-        this.users = response.Items;
+        this.users = response.items;
         console.log(this.users);
-        this.totalItems = response.TotalRows;
+        this.totalItems = response.totalRows;
       });
   }
 
@@ -84,10 +89,10 @@ export class UserComponent implements OnInit {
     this._dataService.get('/api/appUser/detail/' + id)
       .subscribe((response: any) => {
         this.entity = response;
-        for (let role of this.entity.Roles) {
+        for (let role of this.entity.roles) {
           this.myRoles.push(role);
         }
-        this.entity.BirthDay = moment(new Date(this.entity.BirthDay)).format('DD/MM/YYYY');
+        this.entity.birthDay = moment(this.entity.birthDay).format('MM/DD/YYYY');
       });
   }
   showEditModal(id: any) {
@@ -97,21 +102,24 @@ export class UserComponent implements OnInit {
 
   public saveChange(valid: boolean) {
     if (valid) {
-      this.entity.Roles = this.myRoles;
+      this.entity.roles = this.myRoles;
       let fi = this.avatar.nativeElement;
       if (fi.files.length > 0) {
         this._uploadService.postWithFile('/api/upload/saveImage?type=avatar', null, fi.files)
           .then((imageUrl: string) => {
-            this.entity.Avatar = imageUrl;
+            this.entity.avatar = imageUrl;
           })
           .then(() => {
             this.saveData();
           });
+      } else {
+        this.saveData();
       }
     }
   }
+
   public saveData() {
-    if (this.entity.Id == undefined) {
+    if (this.entity.id == undefined) {
       this._dataService.post('/api/appUser/add', JSON.stringify(this.entity))
         .subscribe((response: any) => {
           this.getUsers();
@@ -145,5 +153,5 @@ export class UserComponent implements OnInit {
   public selectedDate(value: any) {
     this.entity.BirthDay = moment(value.end._d).format('DD/MM/YYYY');
   }
-
+ 
 }

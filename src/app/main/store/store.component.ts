@@ -22,13 +22,14 @@ export class StoreComponent implements OnInit {
   public entity: any = {};
   public productKeyEntity: any = {};
   public softwares: any[];
-
   public dateOptions: any = {
     locale: { format: 'MM/DD/YYYY' },
     alwaysShowCalendars: false,
     singleDatePicker: true,
     showDropdowns: true,
-    autoUpdateInput: true
+    autoUpdateInput: true,
+    startDate: moment(new Date()).add(1, 'M').format('MM/DD/YYYY'),
+    endDate: moment(new Date()).add(1, 'M').format('MM/DD/YYYY'),
   };
   public modalConfigs: ModalOptions = {
     animated: true,
@@ -89,7 +90,6 @@ export class StoreComponent implements OnInit {
     if (this.entity.productKeys.length == 0) {
       this.entity.productKeys = new Array();
     }
-
     this.productKeyEntity.dateExpire = moment(new Date()).add(1, 'M').format('MM/DD/YYYY');
     this.productKeyEntity.softwareID = 1;
     this.manageProductKeyModal.show();

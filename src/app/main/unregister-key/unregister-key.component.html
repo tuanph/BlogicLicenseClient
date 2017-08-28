@@ -6,9 +6,9 @@
   <div class="title_right">
     <div class="col-md-10 col-sm-10 col-xs-12 form-group pull-right top_search">
       <div class="input-group">
-        <input type="text" class="form-control" name="filter" (keyup.enter)="getUnregisterProducts()" [(ngModel)]="filter" placeholder="Search by name, phone#, product key...">
+        <input type="text" class="form-control" name="filter" (keyup.enter)="getUnregisterKeys()" [(ngModel)]="filter" placeholder="Search by key...">
         <span class="input-group-btn">
-            <button class="btn btn-default" (click)="getUnregisterProducts()" type="button"><i class="fa fa-search" aria-hidden="true"></i> </button>
+            <button class="btn btn-default" (click)="getUnregisterKeys()" type="button"><i class="fa fa-search" aria-hidden="true"></i> </button>
          </span>
       </div>
     </div>
@@ -48,9 +48,9 @@
                       </select>
                 </td>
                 <td>
-                  <input type="text" #dateExpire="ngModel" (selected)="selectedDate($event,key)" date-only="true" date-format="MM-DD-YYYY" daterangepicker
-                    (ngModelChange)="key.dateExpried = $event" (showCalendarDaterangepicker)="showCalendarDaterangepicker($event)"
-                    [options]="dateOptions" [(ngModel)]="key.dateExpried" name="dateExpire" class="form-control">
+                  <input type="text" #dateExpire="ngModel" value="{{key.dateExpried}}" (selected)="selectedDate($event,key)" date-only="true"
+                    date-format="MM-DD-YYYY" daterangepicker 
+                    [options]="dateOptions" [(ngModel)]="key.dateExpried"  name="dateExpire" class="form-control">
                 </td>
                 <td style="text-align: right">
                   <button class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Register product key" (click)="registerProduct(key)"> <i class="fa fa-unlock" aria-hidden="true"></i></button>

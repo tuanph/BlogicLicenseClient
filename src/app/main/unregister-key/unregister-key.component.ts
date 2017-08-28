@@ -91,15 +91,4 @@ export class UnregisterKeyComponent implements OnInit {
   public selectedDate(value: any,key:any) {
     key.dateExpried = moment(value.end._d).format('MM/DD/YYYY');
   }
-  public showCalendarDaterangepicker(value: any) {
-    // console.log(value.picker);
-    // let currentDateTime = value.picker.element[0].value;
-    // value.picker.setStartDate(value.picker.element[0].value);
-    // value.picker.updateCalendars();
-    // value.picker.setStartDate =moment(currentDateTime);
-    // value.picker.setEndDate =moment(currentDateTime);
-    // value.picker.oldStartDate =moment(currentDateTime);
-    // value.picker.oldEndDate =moment(currentDateTime);
-  }
-
 }
