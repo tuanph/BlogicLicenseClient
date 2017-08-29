@@ -13,7 +13,7 @@ import { AuthGuard } from './core/guards/auth.guards';
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes, { useHash: true })
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

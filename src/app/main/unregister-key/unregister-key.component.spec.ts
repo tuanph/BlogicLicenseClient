@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UnregisterProductComponent } from './unregister-product.component';
+import { UnregisterKeyComponent } from './unregister-key.component';
 
-describe('UnregisterProductComponent', () => {
-  let component: UnregisterProductComponent;
-  let fixture: ComponentFixture<UnregisterProductComponent>;
+describe('UnregisterKeyComponent', () => {
+  let component: UnregisterKeyComponent;
+  let fixture: ComponentFixture<UnregisterKeyComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UnregisterProductComponent ]
+      declarations: [ UnregisterKeyComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UnregisterProductComponent);
+    fixture = TestBed.createComponent(UnregisterKeyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
