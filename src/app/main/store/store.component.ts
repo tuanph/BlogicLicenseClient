@@ -31,11 +31,23 @@ export class StoreComponent implements OnInit {
     startDate: moment(new Date()).add(1, 'M').format('MM/DD/YYYY'),
     endDate: moment(new Date()).add(1, 'M').format('MM/DD/YYYY'),
   };
+
+  public dateSubOptions: any = {
+    locale: { format: 'MM/DD/YYYY' },
+    alwaysShowCalendars: false,
+    singleDatePicker: true,
+    showDropdowns: true,
+    autoUpdateInput: true,
+    autoApply: true,
+    drops: 'up'
+  };
+
   public modalConfigs: ModalOptions = {
     animated: true,
     keyboard: false,
     backdrop: false,
     ignoreBackdropClick: true
+
   };
 
   @ViewChild('addEditModal') public addEditModal: ModalDirective;
@@ -90,6 +102,11 @@ export class StoreComponent implements OnInit {
     if (this.entity.productKeys.length == 0) {
       this.entity.productKeys = new Array();
     }
+    else {
+      this.entity.productKeys.forEach(element => {
+        element.dateExpire = moment(element.dateExpire).format('MM/DD/YYYY');
+      });
+    }
     this.productKeyEntity.dateExpire = moment(new Date()).add(1, 'M').format('MM/DD/YYYY');
     this.productKeyEntity.softwareID = 1;
     this.manageProductKeyModal.show();
@@ -108,6 +125,7 @@ export class StoreComponent implements OnInit {
       }
       copy.softwareID = +copy.softwareID;//parse to Number
       copy.storeID = this.entity.id;
+      copy.dateExpire = moment(copy.dateExpire).format('MM/DD/YYYY');
       this.entity.productKeys.push(copy);
     }
   }
@@ -180,6 +198,13 @@ export class StoreComponent implements OnInit {
     this.productKeyEntity.dateExpire = moment(value.end._d).format('MM/DD/YYYY');
   }
 
+  public selectedSubDate(value: any, sender: any) {
+    sender.dateExpire = moment(value.end._d).format('MM/DD/YYYY');
+  }
+  public showDaterangepicker(value: any) {
+    // value.pciker.startDate=moment('06/25/1989').format('MM/DD/YYYY');
+    // value.pciker.endDate=moment('06/25/1989').format('MM/DD/YYYY');
+  }
   public closeAddEditModal() {
     this.getStores();
     this.addEditForm.resetForm();

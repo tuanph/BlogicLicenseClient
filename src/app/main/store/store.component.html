@@ -182,8 +182,8 @@
                     <!-- <input type="text" #dateExpire="ngModel" (selected)="selectedDate($event)" daterangepicker [options]="dateOptions" [(ngModel)]="productKeyEntity.dateExpire"
                       name="dateExpire" class="form-control" value="{{productKeyEntity.dateExpire}}" (ngModelChange)="productKeyEntity.dateExpire = $event" > -->
 
-                    <input type="text" #dateExpire="ngModel" (selected)="selectedDate($event,key)" date-only="true" daterangepicker
-                      [options]="dateOptions" [(ngModel)]="productKeyEntity.dateExpire" name="dateExpire" class="form-control">
+                    <input type="text" #dateExpire="ngModel" (selected)="selectedDate($event,key)" date-only="true" daterangepicker [options]="dateOptions"
+                      [(ngModel)]="productKeyEntity.dateExpire" name="dateExpire" class="form-control">
                   </div>
 
                   <div class="col-xs-6">
@@ -216,7 +216,12 @@
                     </select>
                     </td>
                     <td class="col-xs-2">
-                      {{pr.dateExpire | date:"MM/dd/yyyy" }}
+                      <!-- {{pr.dateExpire | date:"MM/dd/yyyy" }}     -->
+
+                      <input type="text" #subDateExpire="ngModel" (selected)="selectedSubDate($event,pr)" date-only="true" daterangepicker [ngModelOptions]="{standalone: true}"
+                        [options]="dateSubOptions" [(ngModel)]="pr.dateExpire" class="form-control" (showDaterangepicker)="showDaterangepicker($event)"
+                        value="{{pr.dateExpire}}">
+
                     </td>
                     <td class="col-xs-6">
                       {{pr.key}}
