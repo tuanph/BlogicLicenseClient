@@ -24,6 +24,7 @@
         "../node_modules/animate.css/animate.css",
         "../node_modules/alertifyjs/build/css/alertify.css",
         "../node_modules/alertifyjs/build/css/themes/default.css",
+        "../node_modules/gentelella/vendors/iCheck/skins/flat/green.css",
         "../src/assets/css/custom.css",
         "styles.css"
       ],

@@ -217,7 +217,9 @@ export class StoreComponent implements OnInit {
     this.manageProductKeyModal.hide();
   }
   public checkTypeProductKey(pk: any): string {
-
+    if (pk.isNeverExpried) {
+      return "success";
+    }
     let currentTime = new Date();
     currentTime.setHours(0, 0, 0, 0);
     let todaysDate = moment(currentTime);

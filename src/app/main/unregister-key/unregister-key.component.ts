@@ -72,6 +72,7 @@ export class UnregisterKeyComponent implements OnInit {
     productKeyViewModel.key = pk.key;
     productKeyViewModel.storeID = pk.storeID;
     productKeyViewModel.softwareID = pk.softwareID;
+    productKeyViewModel.isNeverExpried = pk.isNeverExpried;
     this.dataService.post('/api/unregisterKey/registerkey', JSON.stringify(productKeyViewModel)).subscribe(
       (response: any) => {
         this.notificationService.printSuccessMessage(MessageConstants.CREATED_OK_MSG);

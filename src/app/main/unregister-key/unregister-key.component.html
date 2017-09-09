@@ -28,34 +28,42 @@
               <tr>
                 <th class="column-title">Key</th>
                 <th class="column-title">Software</th>
-                <!-- <th class="column-title">Device</th> -->
                 <th class="column-title">Date Connected</th>
                 <th class="column-title">Store</th>
                 <th class="column-title">Date Expried</th>
+                <th class="column-title">Never Expried</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let key of keys">
-                <td>{{key.key}}</td>
-                <td>
+                <td >{{key.key}}</td>
+                <td >
                   <select disabled class="form-control" [(ngModel)]="key.softwareID" [ngModelOptions]="{standalone: true}">
                     <option *ngFor="let y of softwares" [value]="y.id" >{{y.name}}</option>
                   </select>
                 </td>
-                <!-- <td>{{key.deviceName}}</td> -->
-                <td>{{key.dateConnected | date:"short" }}</td>
-                <td>
+                <td >{{key.dateConnected | date:"short" }}</td>
+                <td >
                   <select class="form-control" [(ngModel)]="key.storeID" [ngModelOptions]="{standalone: true}">
                         <option *ngFor="let st of stores" [value]="st.id" >{{st.token}}--{{st.name}}</option>
                       </select>
                 </td>
-                <td>
+                <td >
                   <input type="text" #dateExpire="ngModel" value="{{key.dateExpried}}" (selected)="selectedDate($event,key)" date-only="true"
-                    date-format="MM-DD-YYYY" daterangepicker 
-                    [options]="dateOptions" [(ngModel)]="key.dateExpried"  name="dateExpire" class="form-control">
+                    date-format="MM-DD-YYYY" daterangepicker [options]="dateOptions" [(ngModel)]="key.dateExpried" name="dateExpire"
+                    class="form-control">
                 </td>
-                <td style="text-align: right">
+                <td >
+                  <div class="checkbox">
+                    <label class="">
+                        <div  class="icheckbox_flat-green" [ngClass]="{ checked : key.isNeverExpried == true }" style="position: relative;">
+                          <input  #isNeverExpried="ngModel" name="isNeverExpried" type="checkbox" class="flat" [(ngModel)]="key.isNeverExpried" style="position: absolute; opacity: 0;">
+                        </div> 
+                    </label>
+                  </div>
+                </td>
+                <td  style="text-align: right">
                   <button class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Register product key" (click)="registerProduct(key)"> <i class="fa fa-unlock" aria-hidden="true"></i></button>
                 </td>
               </tr>
