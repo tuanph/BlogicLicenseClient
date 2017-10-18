@@ -24,6 +24,7 @@
     "alertifyjs": "^1.10.0",
     "angular-2-dropdown-multiselect": "^1.5.2",
     "angular-tree-component": "^4.0.0",
+    "angular2-busy": "^2.0.4",
     "animate.css": "^3.5.2",
     "bootstrap": "^3.3.7",
     "chart.js": "^2.6.0",

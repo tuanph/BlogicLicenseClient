@@ -1,3 +1,5 @@
+<div [ngBusy]="{busy:[busy,busyUpload]}"></div>
+
 <div class="page-title">
   <div class="title_left">
     <h3>Employees</h3>
@@ -8,8 +10,8 @@
       <div class="input-group">
         <input type="text" class="form-control" name="filter" (keyup.enter)="getUsers()" [(ngModel)]="filter" placeholder="Find by username...">
         <span class="input-group-btn">
-            <button class="btn btn-default" (click)="getUsers()" type="button">Search!</button>
-         </span>
+          <button class="btn btn-default" (click)="getUsers()" type="button">Search!</button>
+        </span>
       </div>
     </div>
   </div>
@@ -48,11 +50,17 @@
               <td>{{user.email}}</td>
               <td>{{user.birthDay | date:'shortDate'}}</td>
               <td>{{user.phoneNumber}}</td>
-              <td><img [src]="baseFolder + user.avatar" width="128" class="small-image" /></td>
+              <td>
+                <img [src]="baseFolder + user.avatar" width="128" class="small-image" />
+              </td>
               <td>
                 <!-- *ngIf="_authenService.hasPermission('USER','update')"  *ngIf="_authenService.hasPermission('USER','delete')" -->
-                <button class="btn btn-primary" (click)="showEditModal(user.id)"><i class="fa fa-pencil-square-o"></i></button>
-                <button class="btn btn-danger" (click)="deleteUser(user.id)"><i class="fa fa-trash"></i></button>
+                <button class="btn btn-primary" (click)="showEditModal(user.id)">
+                  <i class="fa fa-pencil-square-o"></i>
+                </button>
+                <button class="btn btn-danger" (click)="deleteUser(user.id)">
+                  <i class="fa fa-trash"></i>
+                </button>
               </td>
             </tr>
           </tbody>
@@ -86,7 +94,7 @@
             <div class="col-md-9 col-sm-9 col-xs-12">
               <input type="text" #name="ngModel" [(ngModel)]="entity.fullName" required minlength="3" name="name" class="form-control">
               <small [hidden]="name.valid || (name.pristine && !addEditUserForm.submitted)" class="text-danger">
-                  Please enter at least 3 characters !
+                Please enter at least 3 characters !
               </small>
             </div>
           </div>
@@ -96,7 +104,7 @@
             <div class="col-md-9 col-sm-9 col-xs-12">
               <input type="text" #username="ngModel" [(ngModel)]="entity.userName" required name="username" class="form-control">
               <small [hidden]="username.valid || (username.pristine && !addEditUserForm.submitted)" class="text-danger">
-                  Username is required !
+                Username is required !
               </small>
             </div>
           </div>
@@ -105,7 +113,7 @@
             <div class="col-md-9 col-sm-9 col-xs-12">
               <input type="password" #password="ngModel" [(ngModel)]="entity.password" required minlength="6" name="password" class="form-control">
               <small [hidden]="password.valid || (password.pristine && !addEditUserForm.submitted)" class="text-danger">
-                  Please enter at least 6 characters !
+                Please enter at least 6 characters !
               </small>
             </div>
           </div>
@@ -115,7 +123,7 @@
               <input type="password" #confirmpassword="ngModel" [(ngModel)]="entity.confirmPassword" required validateEqual="password"
                 minlength="6" name="confirmpassword" class="form-control">
               <small [hidden]="confirmpassword.valid || (confirmpassword.pristine && !addEditUserForm.submitted)" class="text-danger">
-                  Password not match !
+                Password not match !
               </small>
             </div>
           </div>
@@ -161,8 +169,8 @@
             <div class="col-md-9 col-sm-9 col-xs-12">
 
               <input type="text" #birthday="ngModel" value="{{entity.birthDay}}" (selected)="selectedDate($event,key)" date-only="true"
-                date-format="MM-DD-YYYY" daterangepicker 
-                [options]="dateOptions" [(ngModel)]="entity.birthDay" name="dateExpire" class="form-control" >
+                date-format="MM-DD-YYYY" daterangepicker [options]="dateOptions" [(ngModel)]="entity.birthDay" name="dateExpire"
+                class="form-control">
             </div>
           </div>
           <div class="form-group">

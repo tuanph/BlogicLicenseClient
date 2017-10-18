@@ -9,7 +9,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { FormsModule } from '@angular/forms';
 import { Daterangepicker } from 'ng2-daterangepicker';
 import { UnregisterKeyComponent } from './unregister-key.component';
-
+import { BusyModule } from 'angular2-busy';
 let unregisterKeyRouters: Routes = [
   {
     path: '', component: UnregisterKeyComponent
@@ -23,7 +23,8 @@ let unregisterKeyRouters: Routes = [
     RouterModule.forChild(unregisterKeyRouters),
     PaginationModule.forRoot(),
     ModalModule.forRoot(),
-    Daterangepicker
+    Daterangepicker,
+    BusyModule
   ],
   declarations: [UnregisterKeyComponent]
 })

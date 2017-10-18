@@ -6,13 +6,15 @@ import { PaginationModule, ModalModule } from 'ngx-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { DataService } from './../../core/services/data.service';
 import { UtilityService } from './../../core/services/utility.service';
+import { BusyModule } from 'angular2-busy';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     AnnouncementRoutes,
     PaginationModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    BusyModule
   ],
   declarations: [AnnouncementComponent]
 })

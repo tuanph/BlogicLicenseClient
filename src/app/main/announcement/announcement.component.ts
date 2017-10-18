@@ -4,6 +4,8 @@ import { NotificationService } from '../../core/services/notification.service';
 import { UtilityService } from '../../core/services/utility.service';
 import { MessageConstants } from '../../core/common/message.constants';
 import { ModalDirective } from 'ngx-bootstrap/modal';
+import { Subscription } from 'rxjs';
+import { BusyDirective } from 'angular2-busy';
 
 @Component({
   selector: 'app-announcement',
@@ -19,7 +21,7 @@ export class AnnouncementComponent implements OnInit {
   public pageDisplay: number = 10;
   public filter: string = '';
   public entity: any;
-
+  busy: Subscription;
   public announcements: any[];
 
   constructor(
@@ -33,7 +35,7 @@ export class AnnouncementComponent implements OnInit {
   }
   //Load data
   public search() {
-    this._dataService.get('/api/announcement/getall?pageIndex='
+    this.busy = this._dataService.get('/api/announcement/getall?pageIndex='
       + this.pageIndex + '&pageSize='
       + this.pageSize)
       .subscribe((response: any) => {
@@ -53,7 +55,7 @@ export class AnnouncementComponent implements OnInit {
   }
   //Action delete
   public deleteConfirm(id: string): void {
-    this._dataService.delete('/api/announcement/delete', 'id', id).subscribe((response: any) => {
+    this.busy = this._dataService.delete('/api/announcement/delete', 'id', id).subscribe((response: any) => {
       this.notificationService.printSuccessMessage(MessageConstants.DELETED_OK_MSG);
       this.search();
     }, error => this._dataService.handleError(error));
@@ -65,7 +67,7 @@ export class AnnouncementComponent implements OnInit {
   //Save change for modal popup
   public saveChanges(valid: boolean) {
     if (valid) {
-      this._dataService.post('/api/announcement/add', JSON.stringify(this.entity)).subscribe((response: any) => {
+      this.busy = this._dataService.post('/api/announcement/add', JSON.stringify(this.entity)).subscribe((response: any) => {
         this.search();
         this.addEditModal.hide();
         this.notificationService.printSuccessMessage(MessageConstants.CREATED_OK_MSG);

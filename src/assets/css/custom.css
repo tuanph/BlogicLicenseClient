@@ -4323,3 +4323,6 @@ ul.notifications {
 .alertify-notifier {
   z-index: 3003;
 }
+.ng-busy {
+  z-index: 3004;
+}

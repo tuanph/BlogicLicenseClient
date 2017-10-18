@@ -6,8 +6,9 @@ import { UtilityService } from '../../core/services/utility.service';
 import { ModalDirective, ModalOptions } from 'ngx-bootstrap/modal';
 import { MessageConstants } from '../../core/common/message.constants';
 import { NgForm } from '@angular/forms';
-// import {DaterangePickerComponent} from 'ng2-daterangepicker';
 import { Daterangepicker } from 'ng2-daterangepicker';
+import { BusyModule } from 'angular2-busy';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-unregister-key',
@@ -15,8 +16,6 @@ import { Daterangepicker } from 'ng2-daterangepicker';
   styleUrls: ['./unregister-key.component.css']
 })
 export class UnregisterKeyComponent implements OnInit {
-
-
   public dateOptions = {
     locale: { format: 'MM/DD/YYYY' },
     alwaysShowCalendars: false,
@@ -25,6 +24,7 @@ export class UnregisterKeyComponent implements OnInit {
     autoUpdateInput: true
   };
   @ViewChild('dateExpire') public picker: Daterangepicker;
+  busy: Subscription;
   public pageIndex: number = 1;
   public pageSize: number = 20;
   public totalItems: number;
@@ -44,7 +44,7 @@ export class UnregisterKeyComponent implements OnInit {
 
   public getUnregisterKeys(): any {
     let url = "/api/unregisterKey/getlistpaging?pageIndex=" + this.pageIndex + "&pageSize=" + this.pageSize + "&filter=" + this.filter;
-    this.dataService.get(url)
+    this.busy = this.dataService.get(url)
       .subscribe((response: any) => {
         this.keys = response.items;
         this.totalItems = response.totalRows;
@@ -53,14 +53,14 @@ export class UnregisterKeyComponent implements OnInit {
 
   public getSoftwares() {
     let url = "/api/software/getall";
-    this.dataService.get(url)
+    this.busy = this.dataService.get(url)
       .subscribe((response: any) => {
         this.softwares = response;
       });
   }
   public getStores() {
     let url = "/api/store/gellAllWithOutProductKey";
-    this.dataService.get(url)
+    this.busy = this.dataService.get(url)
       .subscribe((response: any) => {
         this.stores = response;
       });
@@ -73,7 +73,7 @@ export class UnregisterKeyComponent implements OnInit {
     productKeyViewModel.storeID = pk.storeID;
     productKeyViewModel.softwareID = pk.softwareID;
     productKeyViewModel.isNeverExpried = pk.isNeverExpried;
-    this.dataService.post('/api/unregisterKey/registerkey', JSON.stringify(productKeyViewModel)).subscribe(
+    this.busy = this.dataService.post('/api/unregisterKey/registerkey', JSON.stringify(productKeyViewModel)).subscribe(
       (response: any) => {
         this.notificationService.printSuccessMessage(MessageConstants.CREATED_OK_MSG);
         this.getUnregisterKeys();
@@ -89,7 +89,7 @@ export class UnregisterKeyComponent implements OnInit {
     this.getUnregisterKeys();
   }
 
-  public selectedDate(value: any,key:any) {
+  public selectedDate(value: any, key: any) {
     key.dateExpried = moment(value.end._d).format('MM/DD/YYYY');
   }
 }

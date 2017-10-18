@@ -6,6 +6,8 @@ import { UtilityService } from '../../core/services/utility.service';
 import { ModalDirective, ModalOptions } from 'ngx-bootstrap/modal';
 import { MessageConstants } from '../../core/common/message.constants';
 import { NgForm } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { BusyDirective } from 'angular2-busy';
 declare var moment: any;
 @Component({
   selector: 'app-store',
@@ -55,6 +57,7 @@ export class StoreComponent implements OnInit {
   @ViewChild("addEditForm") public addEditForm: NgForm;
   @ViewChild("productKeyForm") public productKeyForm: NgForm;
   @ViewChild("manageProductKeyModalForm") public manageProductKeyModalForm: NgForm;
+  busy: Subscription;
   constructor(private dataService: DataService, private notificationService: NotificationService) {
   }
 
@@ -64,9 +67,8 @@ export class StoreComponent implements OnInit {
   }
 
   getSoftwares() {
-
     let url = "/api/software/getall";
-    this.dataService.get(url)
+    this.busy = this.dataService.get(url)
       .subscribe((response: any) => {
         this.softwares = response;
       });
@@ -74,7 +76,7 @@ export class StoreComponent implements OnInit {
 
   public getStores() {
     let url = "/api/store/getlistpaging?pageIndex=" + this.pageIndex + "&pageSize=" + this.pageSize + "&filter=" + this.filter;
-    this.dataService.get(url)
+    this.busy = this.dataService.get(url)
       .subscribe((response: any) => {
         this.stores = response.items;
         this.totalItems = response.totalRows;
@@ -132,7 +134,7 @@ export class StoreComponent implements OnInit {
 
   public editProductKey(form: NgForm) {
     if (form.valid) {
-      this.dataService.put("/api/store/editProductKey", JSON.stringify(this.entity))
+      this.busy = this.dataService.put("/api/store/editProductKey", JSON.stringify(this.entity))
         .subscribe((response: any) => {
           this.getStores();
           this.manageProductKeyModal.hide();
@@ -151,7 +153,7 @@ export class StoreComponent implements OnInit {
   public saveChanges(form: NgForm) {
     if (form.valid) {
       if (this.entity.id == undefined) {
-        this.dataService.post("/api/store/add", JSON.stringify(this.entity))
+        this.busy = this.dataService.post("/api/store/add", JSON.stringify(this.entity))
           .subscribe((response: any) => {
             this.getStores();
             this.addEditModal.hide();
@@ -163,7 +165,7 @@ export class StoreComponent implements OnInit {
             this.dataService.handleError(error);
           });
       } else {
-        this.dataService.put("/api/store/editBasic", JSON.stringify(this.entity))
+        this.busy = this.dataService.put("/api/store/editBasic", JSON.stringify(this.entity))
           .subscribe((response: any) => {
             this.getStores();
             this.addEditModal.hide();
@@ -189,7 +191,7 @@ export class StoreComponent implements OnInit {
   }
 
   public removeStoreConfirm(id: number) {
-    this.dataService.delete("/api/store/delete", "id", id.toString()).subscribe(() => {
+    this.busy = this.dataService.delete("/api/store/delete", "id", id.toString()).subscribe(() => {
       this.notificationService.printSuccessMessage(MessageConstants.DELETED_OK_MSG);
       this.getStores();
     });

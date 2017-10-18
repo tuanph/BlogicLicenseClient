@@ -9,7 +9,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { FormsModule } from '@angular/forms';
 import { StoreComponent } from './store.component';
 import { Daterangepicker } from 'ng2-daterangepicker';
-
+import { BusyModule } from 'angular2-busy';
 let storeRouters: Routes = [
   {
     path: '', component: StoreComponent
@@ -23,7 +23,8 @@ let storeRouters: Routes = [
     RouterModule.forChild(storeRouters),
     PaginationModule.forRoot(),
     ModalModule.forRoot(),
-    Daterangepicker
+    Daterangepicker,
+    BusyModule
   ],
   providers: [DataService, NotificationService, UtilityService],
   declarations: [StoreComponent]

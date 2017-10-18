@@ -10,6 +10,9 @@ import { NgForm } from '@angular/forms';
 import { IMultiSelectOption } from 'angular-2-dropdown-multiselect';
 import { UploadService } from '../../core/services/upload.service';
 import { DatePipe } from '@angular/common';
+import { Subscription } from 'rxjs';
+import { BusyDirective } from 'angular2-busy';
+
 declare var moment: any;
 
 @Component({
@@ -17,6 +20,7 @@ declare var moment: any;
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css']
 })
+
 export class UserComponent implements OnInit {
 
   public users: any;
@@ -29,7 +33,8 @@ export class UserComponent implements OnInit {
   @ViewChild('modalAddEditUser') public modalAddEditUser: ModalDirective;
   @ViewChild('addEditUserForm') public addEditUserForm: NgForm;
   @ViewChild('avatar') avatar;
-
+  busy: Subscription;
+  busyUpload: Promise<any>;
   public myRoles: string[] = [];
   public allRoles: IMultiSelectOption[] = [];
   public roles: any[];
@@ -45,9 +50,7 @@ export class UserComponent implements OnInit {
 
   constructor(private _dataService: DataService, private _notificationService: NotificationService,
     private _uploadService: UploadService, public _authenService: AuthenService, public _utilityService: UtilityService) {
-    if (_authenService.checkAccess('USER') == false) {
-      _utilityService.navigateToLogin();
-    }
+
   }
 
   ngOnInit() {
@@ -55,7 +58,7 @@ export class UserComponent implements OnInit {
     this.getUsers();
   }
   getRoles(): any {
-    this._dataService.get('/api/appRole/getlistall').subscribe((response: any[]) => {
+    this.busy = this._dataService.get('/api/appRole/getlistall').subscribe((response: any[]) => {
       this.roles = response;
       this.allRoles = [];
       for (let role of response) {
@@ -67,7 +70,7 @@ export class UserComponent implements OnInit {
 
   getUsers() {
     let url = "/api/appUser/getlistpaging?page=" + this.pageIndex + "&pageSize=" + this.pageSize + "&filter=" + this.filter;
-    this._dataService.get(url)
+    this.busy = this._dataService.get(url)
       .subscribe((response: any) => {
         this.users = response.items;
         console.log(this.users);
@@ -86,7 +89,7 @@ export class UserComponent implements OnInit {
   }
 
   loadUserDetail(id: any) {
-    this._dataService.get('/api/appUser/detail/' + id)
+    this.busy = this._dataService.get('/api/appUser/detail/' + id)
       .subscribe((response: any) => {
         this.entity = response;
         for (let role of this.entity.roles) {
@@ -105,7 +108,7 @@ export class UserComponent implements OnInit {
       this.entity.roles = this.myRoles;
       let fi = this.avatar.nativeElement;
       if (fi.files.length > 0) {
-        this._uploadService.postWithFile('/api/upload/saveImage?type=avatar', null, fi.files)
+        this.busyUpload = this._uploadService.postWithFile('/api/upload/saveImage?type=avatar', null, fi.files)
           .then((imageUrl: string) => {
             this.entity.avatar = imageUrl;
           })
@@ -120,7 +123,7 @@ export class UserComponent implements OnInit {
 
   public saveData() {
     if (this.entity.id == undefined) {
-      this._dataService.post('/api/appUser/add', JSON.stringify(this.entity))
+      this.busy = this._dataService.post('/api/appUser/add', JSON.stringify(this.entity))
         .subscribe((response: any) => {
           this.getUsers();
           this.modalAddEditUser.hide();
@@ -128,7 +131,7 @@ export class UserComponent implements OnInit {
         }, error => this._dataService.handleError(error));
     }
     else {
-      this._dataService.put('/api/appUser/update', JSON.stringify(this.entity))
+      this.busy = this._dataService.put('/api/appUser/update', JSON.stringify(this.entity))
         .subscribe((response: any) => {
           this.getUsers();
           this.modalAddEditUser.hide();
@@ -142,7 +145,7 @@ export class UserComponent implements OnInit {
     this._notificationService.printConfirmationDialog(MessageConstants.CONFIRM_DELETE_MSG, () => this.deleteUserConfirm(id));
   }
   deleteUserConfirm(id: any) {
-    this._dataService.delete('/api/appUser/delete', 'id', id).subscribe((response: Response) => {
+    this.busy = this._dataService.delete('/api/appUser/delete', 'id', id).subscribe((response: Response) => {
       this._notificationService.printSuccessMessage(MessageConstants.DELETED_OK_MSG);
       this.getUsers();
     });
@@ -153,5 +156,5 @@ export class UserComponent implements OnInit {
   public selectedDate(value: any) {
     this.entity.BirthDay = moment(value.end._d).format('DD/MM/YYYY');
   }
- 
+
 }

@@ -11,7 +11,7 @@ import { UtilityService } from '../../core/services/utility.service'
 import { Daterangepicker } from 'ng2-daterangepicker';
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
 import { UploadService } from '../../core/services/upload.service';
-
+import { BusyModule } from 'angular2-busy';
 let userRouter: Routes = [
   { path: '', component: UserComponent }
 ];
@@ -24,7 +24,8 @@ let userRouter: Routes = [
     PaginationModule.forRoot(),
     ModalModule.forRoot(),
     Daterangepicker,
-    MultiselectDropdownModule
+    MultiselectDropdownModule,
+    BusyModule
   ],
   providers: [DataService, NotificationService, UtilityService, UploadService],
   declarations: [UserComponent]
